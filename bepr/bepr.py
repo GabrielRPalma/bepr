@@ -69,6 +69,8 @@ def bifurcation(initial,P_range, e, parms):
     
     return P_range, solf
 
+# Visualization functions
+
 def bifurcation_plot(P_range, solf, parametro, save, S_name):
         
         fig = plt.figure(figsize = (6,4),dpi=200)
@@ -86,3 +88,60 @@ def bifurcation_plot(P_range, solf, parametro, save, S_name):
         
         if save:
             fig.savefig('%s' % S_name, dpi = 300)
+
+def model_plot(y, save, S_name):
+    
+    fig = plt.figure(figsize = (6,4),dpi=200)
+    fig.patch.set_alpha(.5)
+    ax = fig.add_subplot(111)
+    ax.plot(y[:, 0], ls = "-", label = 'Uninfected hosts')
+    ax.set(xlabel="Time", ylabel="Number of individuals")
+    ax.axvline(0,0, c='k', ls=':')
+    ax.axhline(0,0, c='k', ls=':')
+    ax.grid(True, ls=':')
+    ax.plot(y[:, 1], ls = "-", label = 'Hosts infected with $H. defensa$')
+    ax.plot(y[:, 2], ls = "-", label = 'Hosts infected with $H. defensa$ and $APSE$')
+    ax.legend(loc='best')
+    if save:
+        fig.savefig('%s' % S_name, dpi = 300)
+
+def resistence_loss_dynamcics_plot(initial_values, p_future, count, my_parms, alpha=0.1 * 15000):
+    args =  my_parms
+    time = []
+    
+    p_equilibrium = simulation(initial_values, 5000, P = args[0], mu = args[1],th = args[2], tv = args[3], tx = args[4], alfa = - np.log(args[5]), teta = - np.log(args[6]), beta = args[7], bh= args[8], bv= args[9], doplot=False)[-1,]
+    
+    args[0] = p_future
+    
+    for i in count:
+        time.append(i)
+        
+        dinamics = simulation(p_equilibrium, i, P = args[0], mu = args[1],th = args[2], tv = args[3], tx = args[4], alfa = - np.log(args[5]), teta = - np.log(args[6]), beta = args[7], bh= args[8], bv= args[9], doplot=False)
+        
+        if dinamics[:,2][-1] <= alpha:
+            break
+        else:
+            continue
+    print('The model spends %s iterations for the protected hosts be extinct'% len(time))        
+    return(dinamics)
+
+def resistence_dynamcics_plot(initial_values, p_future, count, my_parms, alpha=5):
+    args =  my_parms
+    time = []
+    
+    p_equilibrium = simulation(initial_values, 5000, P = args[0], mu = args[1],th = args[2], tv = args[3], tx = args[4], alfa = - np.log(args[5]), teta = - np.log(args[6]), beta = args[7], bh= args[8], bv= args[9], doplot=False)[-1,]
+    
+    args[0] = p_future
+    p_equilibrium[2] = p_equilibrium[0] * .1
+    
+    for i in count:
+        time.append(i)
+        
+        dinamics = simulation(p_equilibrium, i, P = args[0], mu = args[1],th = args[2], tv = args[3], tx = args[4], alfa = - np.log(args[5]), teta = - np.log(args[6]), beta = args[7], bh= args[8], bv= args[9], doplot=False)
+        
+        if dinamics[:,2][-1] >= alpha:
+            break
+        else:
+            continue
+    print('The model spends %s iterations for the protected hosts population expresive at the community'% len(time))        
+    return(dinamics)
