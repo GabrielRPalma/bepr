@@ -105,31 +105,31 @@ def model_plot(y, save, S_name):
     if save:
         fig.savefig('%s' % S_name, dpi = 300)
 
-def resistence_loss_dynamcics_plot(initial_values, p_future, count, my_parms, alpha=0.1 * 15000):
+def get_resistence_loss_dynamcics(initial_values, p_future, count, my_parms, alpha=0.1 * 15000):
     args =  my_parms
     time = []
     
-    p_equilibrium = simulation(initial_values, 5000, P = args[0], mu = args[1],th = args[2], tv = args[3], tx = args[4], alfa = - np.log(args[5]), teta = - np.log(args[6]), beta = args[7], bh= args[8], bv= args[9], doplot=False)[-1,]
+    p_equilibrium = simulation(initial_values, 5000, P = args[0], mu = args[1],th = args[2], tv = args[3], tx = args[4], alfa = - log(args[5]), teta = - log(args[6]), beta = args[7], bh= args[8], bv= args[9], doplot=False)[-1,]
     
     args[0] = p_future
     
     for i in count:
         time.append(i)
         
-        dinamics = simulation(p_equilibrium, i, P = args[0], mu = args[1],th = args[2], tv = args[3], tx = args[4], alfa = - np.log(args[5]), teta = - np.log(args[6]), beta = args[7], bh= args[8], bv= args[9], doplot=False)
+        dinamics = simulation(p_equilibrium, i, P = args[0], mu = args[1],th = args[2], tv = args[3], tx = args[4], alfa = - log(args[5]), teta = - log(args[6]), beta = args[7], bh= args[8], bv= args[9], doplot=False)
         
         if dinamics[:,2][-1] <= alpha:
             break
         else:
             continue
     print('The model spends %s iterations for the protected hosts be extinct'% len(time))        
-    return(dinamics)
+    return(dinamics, time)
 
-def resistence_dynamcics_plot(initial_values, p_future, count, my_parms, alpha=5):
+def get_resistence_dynamcics(initial_values, p_future, count, my_parms, alpha=5):
     args =  my_parms
     time = []
     
-    p_equilibrium = simulation(initial_values, 5000, P = args[0], mu = args[1],th = args[2], tv = args[3], tx = args[4], alfa = - np.log(args[5]), teta = - np.log(args[6]), beta = args[7], bh= args[8], bv= args[9], doplot=False)[-1,]
+    p_equilibrium = simulation(initial_values, 5000, P = args[0], mu = args[1],th = args[2], tv = args[3], tx = args[4], alfa = - log(args[5]), teta = - log(args[6]), beta = args[7], bh= args[8], bv= args[9], doplot=False)[-1,]
     
     args[0] = p_future
     p_equilibrium[2] = p_equilibrium[0] * .1
@@ -137,11 +137,11 @@ def resistence_dynamcics_plot(initial_values, p_future, count, my_parms, alpha=5
     for i in count:
         time.append(i)
         
-        dinamics = simulation(p_equilibrium, i, P = args[0], mu = args[1],th = args[2], tv = args[3], tx = args[4], alfa = - np.log(args[5]), teta = - np.log(args[6]), beta = args[7], bh= args[8], bv= args[9], doplot=False)
+        dinamics = simulation(p_equilibrium, i, P = args[0], mu = args[1],th = args[2], tv = args[3], tx = args[4], alfa = - log(args[5]), teta = - log(args[6]), beta = args[7], bh= args[8], bv= args[9], doplot=False)
         
         if dinamics[:,2][-1] >= alpha:
             break
         else:
             continue
     print('The model spends %s iterations for the protected hosts population expresive at the community'% len(time))        
-    return(dinamics)
+    return(dinamics, time)
