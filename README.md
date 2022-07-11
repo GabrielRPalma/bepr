@@ -1,10 +1,7 @@
 # Bepr
 
-.. image:: /docs/source/3.png
-   :align: center
-   :width: 300
-   :height: 300
-   :alt: bepr logo.
+![bepr (7)](https://user-images.githubusercontent.com/58814900/178315025-2a4233f5-8415-494d-9135-505e031e2e17.png)
+
 
 [![image](https://img.shields.io/pypi/v/bepr.svg)](https://pypi.python.org/pypi/bepr)
 [![image](https://img.shields.io/conda/vn/conda-forge/bepr.svg)](https://anaconda.org/conda-forge/bepr)
