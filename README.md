@@ -10,12 +10,12 @@
 
 
 -   Free software: MIT license
--   Documentation: https://GabrielRPalma.github.io/bepr
+-   Documentation: https://bepr-documentation.readthedocs.io/en/latest/
     
 
 ## Features
 
--   TODO
+-   Simulate bacteriophage effect on parasitism resistance;
 
 ## Credits
 
